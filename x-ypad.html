@@ -11,7 +11,7 @@
   </head>
   <body>
     <main class = "container">
-        <h1>Welcome to My Website 1.7</h1> 
+        <h1>Welcome to My Website 1.8</h1> 
         <div  id = "pad" style="background-color: yellowgreen;width:500px;height:500px;" > 
            <div style = "text-align: center; padding-top:50%;">
             X:<span id="X"></span>, Y:<span id="Y"></span>
@@ -38,13 +38,21 @@
             }).toDestination();
 
             function noteOn(event){
-                if (event.offsetY == undefined){
-                    let bcr = event.target.getBoundingClientRect();
-                    event.offsetX = event.targetTouches[0].clientX - bcr.x;
-                    event.offsetY = event.targetTouches[0].clientY - bcr.y;
-                }
+                X.textContent = event.offsetX
                 Y.textContent = (500-event.offsetY)/500*84
-               synth.triggerAttack(Tone.Frequency("C2").transpose((500-event.offsetY)/500*60))
+                synth.triggerAttack(Tone.Frequency("C2").transpose((500-event.offsetY)/500*60))
+            
+           };
+
+
+           function noteOn1(event){
+                let bcr = event.target.getBoundingClientRect();
+                let X = event.targetTouches[0].clientX - bcr.x;
+                let Y = event.targetTouches[0].clientY - bcr.y;
+                X.textContent = X;
+
+                Y.textContent = (500-event.Y)/500*84
+                synth.triggerAttack(Tone.Frequency("C2").transpose((500-event.offsetY)/500*60))
             
            };
 
@@ -54,19 +62,23 @@
             let X = document.getElementById("X");
             let Y = document.getElementById("Y");
             function switchPitch(event){
-                if (event.offsetY == undefined){
-                    let bcr = event.target.getBoundingClientRect();
-                    event.offsetX = event.targetTouches[0].clientX - bcr.x;
-                    event.offsetY = event.targetTouches[0].clientY - bcr.y;
-                }
                 X.textContent = event.offsetX
-                Y.textContent = (500-event.offsetY)/500*84
+                Y.textContent = (500-event.offsetY)/500*60
                 synth.setNote(Tone.Frequency("C2").transpose((500-event.offsetY)/500*60)); // 60
             };
 
+            function switchPitch1(event){
+                let bcr = event.target.getBoundingClientRect();
+                let X = event.targetTouches[0].clientX - bcr.x;
+                let Y = event.targetTouches[0].clientY - bcr.y;
+                X.textContent = X
+                Y.textContent = (500-Y)/500*60
+                synth.setNote(Tone.Frequency("C2").transpose((500-Y)/500*60)); // 60
+            };
+
             let pad = document.getElementById("pad"); 
-            pad.addEventListener("touchstart", noteOn);
-            pad.addEventListener("touchmove", switchPitch);
+            pad.addEventListener("touchstart", noteOn1);
+            pad.addEventListener("touchmove", switchPitch1);
             pad.addEventListener("touchend", noteOff);
             pad.addEventListener("mousedown", noteOn);
             pad.addEventListener("mousemove", switchPitch);
