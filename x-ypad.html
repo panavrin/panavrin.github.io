@@ -11,7 +11,7 @@
   </head>
   <body>
     <main class = "container">
-        <h1>Welcome to My Website 1.6</h1> 
+        <h1>Welcome to My Website 1.7</h1> 
         <div  id = "pad" style="background-color: yellowgreen;width:500px;height:500px;" > 
            <div style = "text-align: center; padding-top:50%;">
             X:<span id="X"></span>, Y:<span id="Y"></span>
@@ -38,6 +38,11 @@
             }).toDestination();
 
             function noteOn(event){
+                if (event.offsetY == undefined){
+                    let bcr = event.target.getBoundingClientRect();
+                    event.offsetX = event.targetTouches[0].clientX - bcr.x;
+                    event.offsetY = event.targetTouches[0].clientY - bcr.y;
+                }
                 Y.textContent = (500-event.offsetY)/500*84
                synth.triggerAttack(Tone.Frequency("C2").transpose((500-event.offsetY)/500*60))
             
@@ -49,6 +54,11 @@
             let X = document.getElementById("X");
             let Y = document.getElementById("Y");
             function switchPitch(event){
+                if (event.offsetY == undefined){
+                    let bcr = event.target.getBoundingClientRect();
+                    event.offsetX = event.targetTouches[0].clientX - bcr.x;
+                    event.offsetY = event.targetTouches[0].clientY - bcr.y;
+                }
                 X.textContent = event.offsetX
                 Y.textContent = (500-event.offsetY)/500*84
                 synth.setNote(Tone.Frequency("C2").transpose((500-event.offsetY)/500*60)); // 60
