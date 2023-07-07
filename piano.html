@@ -26,31 +26,32 @@
 
 	<script>
         document.addEventListener("DOMContentLoaded", function(){
+            const synth = new Tone.PolySynth(Tone.Synth,{
+                oscillator: {
+                    type: "amtriangle",
+                    harmonicity: 0.5,
+                    modulationType: "sine"
+                },
+                envelope: {
+                    attackCurve: "exponential",
+                    attack: 0.05,
+                    decay: 0.2,
+                    sustain: 0.2,
+                    release: 1.5,
+                },
+                portamento: 0.05
+            }).toDestination();
 
             function buttonPressed(event){
-                const synth = new Tone.Synth({
-                    oscillator: {
-                        type: "amtriangle",
-                        harmonicity: 0.5,
-                        modulationType: "sine"
-                    },
-                    envelope: {
-                        attackCurve: "exponential",
-                        attack: 0.05,
-                        decay: 0.2,
-                        sustain: 0.2,
-                        release: 1.5,
-                    },
-                    portamento: 0.05
-                }).toDestination();
+               
                 synth.triggerAttack(this.id)
-                synth.triggerRelease(Tone.now()+0.5)
+                synth.triggerRelease(this.id, Tone.now()+0.5)
             };
 
             let buttons = document.getElementsByTagName("button"); 
             console.log(buttons);
             for (let i=0; i< buttons.length; i++){
-                buttons[i].addEventListener("click", buttonPressed);
+                buttons[i].addEventListener("ontouchstart", buttonPressed);
             }
         })
     </script>
