@@ -58,6 +58,9 @@
             pad.addEventListener("touchstart", noteOn);
             pad.addEventListener("touchmove", switchPitch);
             pad.addEventListener("touchend", noteOff);
+            pad.addEventListener("mousedown", noteOn);
+            pad.addEventListener("mousemove", switchPitch);
+            pad.addEventListener("mouseup", noteOff);
         })
     </script>
   </body>
