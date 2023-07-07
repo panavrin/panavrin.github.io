@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  <body>
+    <main class = "container">
+        <h1>Welcome to My Website 1.4</h1> 
+        <div  id = "pad" style="background-color: yellowgreen;width:500px;height:500px;" > 
+           <div style = "text-align: center; padding-top:50%;">
+            X:<span id="X"></span>, Y:<span id="Y"></span>
+            </div>
+        </div> 
+    </main>
+
+	<script>
+        document.addEventListener("DOMContentLoaded", function(){
+            const synth = new Tone.Synth({
+                oscillator: {
+                    type: "amtriangle",
+                    harmonicity: 0.5,
+                    modulationType: "sine"
+                },
+                envelope: {
+                    attackCurve: "exponential",
+                    attack: 0.05,
+                    decay: 0.2,
+                    sustain: 0.2,
+                    release: 1.5,
+                },
+                portamento: 0.05
+            }).toDestination();
+
+            function noteOn(event){
+               
+               synth.triggerAttack("C5")
+            
+           };
+
+            function noteOff(event){
+                synth.triggerRelease("C5", Tone.now()+1.0)
+            };
+            let X = document.getElementById("X");
+            let Y = document.getElementById("Y");
+            function switchPitch(event){
+                X.textContent = event.offsetX
+                Y.textContent = (500-event.offsetY)/500*84
+                synth.setNote(Tone.Frequency("C2").transpose((500-event.offsetY)/500*60)); // 60
+            };
+
+            let pad = document.getElementById("pad"); 
+            pad.addEventListener("touchstart", noteOn);
+            pad.addEventListener("touchmove", switchPitch);
+            pad.addEventListener("touchend", noteOff);
+        })
+    </script>
+  </body>
+</html>
