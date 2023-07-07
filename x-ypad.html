@@ -11,7 +11,7 @@
   </head>
   <body>
     <main class = "container">
-        <h1>Welcome to My Website 1.5</h1> 
+        <h1>Welcome to My Website 1.6</h1> 
         <div  id = "pad" style="background-color: yellowgreen;width:500px;height:500px;" > 
            <div style = "text-align: center; padding-top:50%;">
             X:<span id="X"></span>, Y:<span id="Y"></span>
@@ -25,7 +25,7 @@
                 oscillator: {
                     type: "amtriangle",
                     harmonicity: 0.5,
-                    modulationType: "sine"
+                    modulationType: "square"
                 },
                 envelope: {
                     attackCurve: "exponential",
@@ -38,13 +38,13 @@
             }).toDestination();
 
             function noteOn(event){
-               
-               synth.triggerAttack("C5")
+                Y.textContent = (500-event.offsetY)/500*84
+               synth.triggerAttack(Tone.Frequency("C2").transpose((500-event.offsetY)/500*60))
             
            };
 
             function noteOff(event){
-                synth.triggerRelease("C5", Tone.now()+1.0)
+                synth.triggerRelease();
             };
             let X = document.getElementById("X");
             let Y = document.getElementById("Y");
